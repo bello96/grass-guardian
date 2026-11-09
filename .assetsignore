@@ -1,0 +1,13 @@
+# 只发布 index.html、styles.css、src/ 和 assets/，其余文件都留在本地。
+.assetsignore
+.git
+.gitignore
+.wrangler
+node_modules
+test
+tools
+server.mjs
+*.md
+wrangler.jsonc
+package.json
+package-lock.json

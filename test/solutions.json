@@ -1,0 +1,191 @@
+{
+ "popper": {
+  "shots": [
+   {
+    "deg": 14.71,
+    "pull": 120,
+    "ability": {
+     "after": 1.89
+    }
+   }
+  ],
+  "score": 6900
+ },
+ "meet-clicker": {
+  "shots": [
+   {
+    "deg": 5.2,
+    "pull": 140,
+    "ability": {
+     "after": 0.59
+    }
+   }
+  ],
+  "score": 5480
+ },
+ "first-hit": {
+  "shots": [
+   {
+    "deg": 60.88,
+    "pull": 120
+   }
+  ],
+  "score": 4120
+ },
+ "hanging": {
+  "shots": [
+   {
+    "deg": 39.95,
+    "pull": 140
+   }
+  ],
+  "score": 6260
+ },
+ "meet-spider": {
+  "shots": [
+   {
+    "deg": 26.73,
+    "pull": 170,
+    "ability": {
+     "after": 0.49,
+     "x": 1231,
+     "y": -670,
+     "releaseAfter": 0.45
+    }
+   },
+   {
+    "deg": 30.33,
+    "pull": 170,
+    "ability": {
+     "after": 0.67,
+     "x": 1470,
+     "y": -320,
+     "releaseAfter": 0.49
+    }
+   }
+  ],
+  "score": 3920
+ },
+ "stubborn-stone": {
+  "shots": [
+   {
+    "deg": 63.52,
+    "pull": 155,
+    "ability": {
+     "after": 1.36
+    }
+   },
+   {
+    "deg": 30.65,
+    "pull": 140
+   }
+  ],
+  "score": 4800
+ },
+ "creekside": {
+  "shots": [
+   {
+    "deg": 9.4,
+    "pull": 170
+   }
+  ],
+  "score": 6160
+ },
+ "under-eaves": {
+  "shots": [
+   {
+    "deg": -7.12,
+    "pull": 155
+   }
+  ],
+  "score": 5120
+ },
+ "wrecking": {
+  "shots": [
+   {
+    "deg": 51.02,
+    "pull": 155
+   }
+  ],
+  "score": 6600
+ },
+ "three-floors": {
+  "shots": [
+   {
+    "deg": 16.78,
+    "pull": 120
+   }
+  ],
+  "score": 7740
+ },
+ "swing-over": {
+  "shots": [
+   {
+    "deg": 51.3,
+    "pull": 170
+   },
+   {
+    "deg": 42.57,
+    "pull": 170,
+    "ability": {
+     "after": 0.53,
+     "x": 1893,
+     "y": -701,
+     "releaseAfter": 0.64
+    }
+   }
+  ],
+  "score": 6480
+ },
+ "downhill": {
+  "shots": [
+   {
+    "deg": 61.09,
+    "pull": 170
+   },
+   {
+    "deg": 12.66,
+    "pull": 170
+   }
+  ],
+  "score": 5106
+ },
+ "queen": {
+  "shots": [
+   {
+    "deg": 20.54,
+    "pull": 170
+   },
+   {
+    "deg": 50.69,
+    "pull": 170,
+    "ability": {
+     "after": 2.05
+    }
+   },
+   {
+    "deg": 23.51,
+    "pull": 170
+   }
+  ],
+  "score": 18111
+ },
+ "bounce": {
+  "shots": [
+   {
+    "deg": 17.82,
+    "pull": 170
+   }
+  ],
+  "score": 6500
+ },
+ "honey-house": {
+  "shots": [
+   {
+    "deg": 75.13,
+    "pull": 170
+   }
+  ],
+  "score": 7945
+ }
+}

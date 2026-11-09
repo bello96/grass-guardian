@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#16403a" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="草丛弹弓：拉动蛛丝弹弓，把甲虫弹向白蚁的堡垒。" />
+    <title>草丛弹弓</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%235b5ba8'/%3E%3Cpath d='M9 4c5 7 5 17 0 24M15 2c5 8 5 20 0 28M21 3c4 8 4 18 0 26' fill='none' stroke='%23231f4e' stroke-width='2'/%3E%3Ccircle cx='24' cy='12' r='3' fill='%23fff'/%3E%3Ccircle cx='24' cy='20' r='3' fill='%23fff'/%3E%3Ccircle cx='25' cy='12' r='1.5' fill='%2317132b'/%3E%3Ccircle cx='25' cy='20' r='1.5' fill='%2317132b'/%3E%3C/svg%3E" />
+    <link rel="preload" href="assets/fonts/ZCOOLKuaiLe-subset.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <!-- The imports go six levels deep. Asking for everything at once saves a network round trip per level. -->
+    <link rel="modulepreload" href="src/main.js" />
+    <link rel="modulepreload" href="src/audio/sfx.js" />
+    <link rel="modulepreload" href="src/game/builder.js" />
+    <link rel="modulepreload" href="src/game/catalog.js" />
+    <link rel="modulepreload" href="src/game/levels.js" />
+    <link rel="modulepreload" href="src/game/save.js" />
+    <link rel="modulepreload" href="src/game/sim.js" />
+    <link rel="modulepreload" href="src/game/title.js" />
+    <link rel="modulepreload" href="src/physics/body.js" />
+    <link rel="modulepreload" href="src/physics/collide.js" />
+    <link rel="modulepreload" href="src/physics/index.js" />
+    <link rel="modulepreload" href="src/physics/pin.js" />
+    <link rel="modulepreload" href="src/physics/ray.js" />
+    <link rel="modulepreload" href="src/physics/rope.js" />
+    <link rel="modulepreload" href="src/physics/shapes.js" />
+    <link rel="modulepreload" href="src/physics/sling.js" />
+    <link rel="modulepreload" href="src/physics/world.js" />
+    <link rel="modulepreload" href="src/render/backdrop.js" />
+    <link rel="modulepreload" href="src/render/cast.js" />
+    <link rel="modulepreload" href="src/render/fx.js" />
+    <link rel="modulepreload" href="src/render/resolution.js" />
+    <link rel="modulepreload" href="src/render/scene.js" />
+    <link rel="modulepreload" href="src/render/sprites.js" />
+  </head>
+  <body>
+    <canvas id="game" aria-label="游戏画面。用鼠标或手指向后拉动弹弓上的甲虫，松手发射。也可以用方向键瞄准，空格键发射。"></canvas>
+
+    <section id="title" class="screen" aria-labelledby="title-heading">
+      <h1 id="title-heading" class="sr-only">草丛弹弓</h1>
+      <div class="title-panel">
+        <p class="title-line">白蚁占了花园。把它们弹走。</p>
+        <div class="title-actions">
+          <button id="btn-play" class="btn btn-main" type="button">开始游戏</button>
+          <button id="btn-levels" class="btn btn-quiet" type="button">选关</button>
+        </div>
+        <p class="title-hint">先试试手：抓住标题晃一晃，或者拉动弹弓打它。</p>
+      </div>
+    </section>
+
+    <section id="map" class="screen" aria-labelledby="map-heading" hidden>
+      <div class="map-shade"></div>
+      <header class="map-head">
+        <button id="btn-map-back" class="btn btn-quiet" type="button">返回</button>
+        <h2 id="map-heading">选一关</h2>
+        <p class="map-total" id="map-total"></p>
+      </header>
+      <div class="leaves" id="leaves"></div>
+    </section>
+
+    <div id="hud" hidden>
+      <div class="hud-left">
+        <button id="btn-pause" class="icon-btn" type="button" aria-label="暂停">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M7 5h3.4v14H7zm6.6 0H17v14h-3.4z" fill="currentColor" /></svg>
+        </button>
+        <span class="hud-name" id="hud-name"></span>
+      </div>
+      <div class="hud-right" aria-live="off">
+        <span class="hud-targets" title="剩余白蚁"><span class="sr-only">剩余白蚁</span><span id="hud-targets">0</span> 只白蚁</span>
+        <span class="hud-score"><span class="sr-only">得分</span><span id="hud-score">0</span></span>
+      </div>
+    </div>
+
+    <p id="hint" role="status" hidden></p>
+
+    <section id="pause" class="screen dim" aria-labelledby="pause-heading" hidden>
+      <div class="sheet">
+        <h2 id="pause-heading">暂停一下</h2>
+        <div class="sheet-actions">
+          <button id="btn-resume" class="btn btn-main" type="button">继续</button>
+          <button id="btn-retry" class="btn btn-quiet" type="button">重新开始这关</button>
+          <button id="btn-sound" class="btn btn-quiet" type="button">关闭声音</button>
+          <button id="btn-quit" class="btn btn-quiet" type="button">回到选关</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="result" class="screen dim" aria-labelledby="result-heading" hidden>
+      <div class="sheet">
+        <h2 id="result-heading"></h2>
+        <div class="pollen-row" id="result-stars" role="img"></div>
+        <p class="result-score" id="result-score"></p>
+        <p class="result-note" id="result-note"></p>
+        <div class="sheet-actions">
+          <button id="btn-next" class="btn btn-main" type="button">下一关</button>
+          <button id="btn-again" class="btn btn-quiet" type="button">再打一次</button>
+          <button id="btn-result-map" class="btn btn-quiet" type="button">回到选关</button>
+        </div>
+      </div>
+    </section>
+
+    <p class="rotate-note" aria-hidden="true">横过来玩，视野更大</p>
+
+    <noscript><p class="noscript">草丛弹弓需要开启 JavaScript 才能运行。</p></noscript>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

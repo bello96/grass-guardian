@@ -1,0 +1,15 @@
+{
+  // Cloudflare Workers 静态资源部署：游戏是纯静态文件，没有服务端代码。
+  // 上传哪些文件由 .assetsignore 控制（只发布 index.html、styles.css、src/ 和 assets/）。
+  "name": "grass-guardian",
+  "compatibility_date": "2026-11-09",
+  "assets": {
+    "directory": "."
+  },
+  "routes": [
+    {
+      "pattern": "grass-guardian.dengjiabei.cn",
+      "custom_domain": true
+    }
+  ]
+}
