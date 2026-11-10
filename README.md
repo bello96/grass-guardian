@@ -1,4 +1,4 @@
-# 草丛弹弓
+# 草原卫士
 
 微距镜头下的花园里，白蚁帮占地筑巢。拉动蛛丝做的弹弓，把甲虫弹向它们的堡垒。
 
@@ -63,7 +63,7 @@ src/render/    画面：背景、角色、方块贴图、粒子、镜头、分�
 src/audio/     合成音效
 src/main.js    界面流程和输入
 test/          自动测试和录好的关卡解法
-tools/         关卡和字体工具
+tools/         关卡、字体和浏览器检查工具
 ```
 
 ## 关卡工具
@@ -80,14 +80,49 @@ tools/         关卡和字体工具
 
 `tools/browser-drive.js` 是在浏览器里逐帧驱动真实游戏的调试脚本，配合地址栏的 `?debug=1` 使用。
 
+## 浏览器检查
+
+`npm test` 在 Node 里跑，碰不到真正的浏览器。`npm run check:browsers` 会启动本地服务器，在三种浏览器内核里打开游戏，检查这几件事：
+
+- 页面能加载，字体到位，画面不是空白。
+- 真实的点按或点击能开始关卡，真实的鼠标拖动能瞄准并发射。
+- `tools/page-checks.mjs` 里的 24 项界面检查都通过，例如误触不发射、暂停时松手不发射、胜利立刻存档。
+- 每个音效都有声音，叠在一起也不削波。
+
+| 内核 | 代表 | 来源 |
+|---|---|---|
+| chrome | 安卓手机，包括安卓微信 | 本机安装的 Google Chrome |
+| webkit | iPhone，包括 iOS 微信 | Playwright 下载 |
+| firefox | 桌面浏览器 | Playwright 下载 |
+
+第一次用之前，先安装开发依赖和两个浏览器，下载后约占 550 MB。国内下载慢的话，先把环境变量 `PLAYWRIGHT_DOWNLOAD_HOST` 设为 `https://cdn.npmmirror.com/binaries/playwright`。
+
+```bash
+npm install
+npx playwright-core install webkit firefox
+npm run check:browsers                                                  # 本地，三个内核都查
+npm run check:browsers -- --url=https://grass-guardian.dengjiabei.cn/   # 查线上
+npm run check:browsers -- --browsers=webkit,firefox                     # 只查其中几个
+```
+
+每个内核会截两张图，一张标题页，一张第一关发射后，存在系统临时目录的 `grass-guardian-browser-check` 文件夹里。有任何一项不过，命令都以非零状态退出。设置了 `HTTPS_PROXY` 时，访问线上会走这个代理。
+
+这项检查替代不了真机：
+
+- Playwright 带的是最新版 WebKit，而微信用的是手机系统自带的 WebKit，老 iPhone 上的版本更旧。
+- Windows 版的 WebKit 没有 Web Audio，所以声音只在 Chrome 和 Firefox 里检查。
+- 无头浏览器的帧率说明不了手机的帧率。Windows 上的 WebKit 用软件绘制，只有十几帧，所以检查里的等待都按游戏时间计算，不按真实时间。
+
 ## 部署
 
-部署到 Cloudflare Workers 静态资源，配置在 `wrangler.jsonc`。这一步和裁剪字体需要先安装开发依赖。
+部署到 Cloudflare Workers 静态资源，配置在 `wrangler.jsonc`。这一步、裁剪字体和浏览器检查都需要先安装开发依赖。
 
 ```bash
 npm install
 npm run deploy
 ```
+
+部署前先跑 `npm test` 和 `npm run check:browsers`，部署后再加上 `--url` 查一次线上。
 
 只发布 `index.html`、`styles.css`、`src/` 和 `assets/`，其余文件由 `.assetsignore` 挡在外面。
 

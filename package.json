@@ -2,18 +2,20 @@
   "name": "grass-guardian",
   "version": "1.0.0",
   "private": true,
-  "description": "草丛弹弓：一款原创的微距花园弹弓物理游戏，无外部依赖。",
+  "description": "草原卫士：一款原创的微距花园弹弓物理游戏，无外部依赖。",
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
     "test": "node --test",
     "font": "node tools/subset-font.mjs",
+    "check:browsers": "node tools/browser-check.mjs",
     "deploy": "wrangler deploy"
   },
   "engines": {
     "node": ">=20"
   },
   "devDependencies": {
+    "playwright-core": "^1.65.0",
     "subset-font": "^2.9.0",
     "wrangler": "^4.156.2"
   }

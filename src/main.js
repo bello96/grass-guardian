@@ -482,7 +482,7 @@ function showBootFailure(error) {
   console.error(error);
   const note = document.createElement('p');
   note.className = 'noscript';
-  note.textContent = '这个浏览器运行不了草丛弹弓，升级系统或换个浏览器试试。';
+  note.textContent = `这个浏览器运行不了${TITLE_LEVEL.name}，升级系统或换个浏览器试试。`;
   document.body.append(note);
 }
 
@@ -491,7 +491,7 @@ async function boot() {
   // Title letters are painted once into bitmaps, so the font has to be in place first.
   try {
     await Promise.race([
-      document.fonts.load('80px "ZCOOL KuaiLe"', '草丛弹弓'),
+      document.fonts.load('80px "ZCOOL KuaiLe"', TITLE_LEVEL.name),
       new Promise(resolve => setTimeout(resolve, 2000)),
     ]);
   } catch { /* the fallback font still works */ }

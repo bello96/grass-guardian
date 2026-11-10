@@ -38,5 +38,5 @@ server.on('error', err => {
   if (err.code === 'EADDRINUSE' && port < 5200) server.listen(++port);
   else throw err;
 });
-server.on('listening', () => console.log(`草丛弹弓已启动：http://localhost:${port}`));
+server.on('listening', () => console.log(`草原卫士已启动：http://localhost:${port}`));
 server.listen(port);

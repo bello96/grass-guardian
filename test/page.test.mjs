@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { TITLE_LEVEL } from '../src/game/title.js';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const read = file => fs.readFileSync(path.join(ROOT, file), 'utf8');
@@ -45,6 +46,19 @@ test('nothing the page asks for is filtered out of the upload', () => {
       assert.ok(!hit, `${file} is needed by the page but ${rule} keeps it from being uploaded`);
     }
   }
+});
+
+test('the game goes by one name: the letters on the title screen, the page title and its fallbacks', () => {
+  const name = TITLE_LEVEL.name;
+  assert.equal(name, '草原卫士');
+  const letters = [];
+  const builder = new Proxy({}, { get: (_, method) => (method === 'tag' ? (x, base, label) => letters.push(label) : () => {}) });
+  TITLE_LEVEL.build(builder);
+  assert.equal(letters.join(''), name, 'the letters hanging on the title screen spell something else');
+  assert.match(html, new RegExp(`<title>${name}</title>`));
+  assert.match(html, new RegExp(`<h1[^>]*>${name}</h1>`));
+  assert.match(html, new RegExp(`<meta name="description" content="${name}：`));
+  assert.match(html, new RegExp(`<noscript>[\\s\\S]*${name}[\\s\\S]*</noscript>`));
 });
 
 test('the code avoids Array.at, which iOS before 15.4 does not have', () => {

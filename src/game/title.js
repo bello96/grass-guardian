@@ -2,7 +2,7 @@
 
 export const TITLE_LEVEL = {
   id: 'title',
-  name: '草丛弹弓',
+  name: '草原卫士',
   width: 1700,
   bugs: ['roly'],
   endless: true,
@@ -10,9 +10,9 @@ export const TITLE_LEVEL = {
   build(b) {
     const letters = [
       ['草', 760, 450],
-      ['丛', 925, 370],
-      ['弹', 1090, 430],
-      ['弓', 1255, 355],
+      ['原', 925, 370],
+      ['卫', 1090, 430],
+      ['士', 1255, 355],
     ];
     for (const [label, x, base] of letters) b.tag(x, base, label, 1040);
   },
